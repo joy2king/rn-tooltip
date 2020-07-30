@@ -39,6 +39,7 @@ type Props = {
   highlightColor: string,
   toggleWrapperProps: {},
   actionType: 'press' | 'longPress' | 'none',
+  showToolTip: boolean,
 };
 
 class Tooltip extends React.Component<Props, State> {
@@ -208,15 +209,14 @@ class Tooltip extends React.Component<Props, State> {
   };
 
   render() {
-    const { isVisible } = this.state;
-    const { onClose, withOverlay, onOpen, overlayColor } = this.props;
+    const { onClose, withOverlay, onOpen, overlayColor, showToolTip} = this.props;
 
     return (
       <View collapsable={false} ref={e => (this.renderedElement = e)}>
         {this.renderContent(false)}
         <Modal
           animationType="fade"
-          visible={isVisible}
+          visible={showToolTip}
           transparent
           onDismiss={onClose}
           onShow={onOpen}
@@ -224,7 +224,7 @@ class Tooltip extends React.Component<Props, State> {
         >
           <TouchableOpacity
             style={styles.container(withOverlay, overlayColor)}
-            onPress={this.toggleTooltip}
+            onPress={onClose}
             activeOpacity={1}
           >
             {this.renderContent(true)}
